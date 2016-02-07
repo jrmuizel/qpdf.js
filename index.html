@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <title>PNG Crush</title>
+
+                <style>
+                        @import url(http://fonts.googleapis.com/css?family=Lobster);
+                        * {
+                                margin: 0;
+                                padding: 0;
+                                line-height: 1;
+                        }
+                        body {
+                                background: #FFF url(bg.png) repeat-x;
+                                font-family: Arial;
+                        }
+                        h1 {
+                                font-family: 'Lobster', cursive;
+                                font-size: 48px;
+                                text-shadow: 1px 1px 0px #BF305C, 1px 2px 0px #BF305C, 2px 3px 0px #BF305C, 2px 4px 0px #BF305C, 3px 5px 0px #80203D, 3px 5px 5px #80203D;
+                                text-align: center;
+                                color: #FE729D;
+                                padding: 30px;
+                        }
+                        h1 span {
+                                color: #AD98FE;
+                                text-shadow: 1px 1px 0px #7360BF, 1px 2px 0px #7360BF, 2px 3px 0px #7360BF, 2px 4px 0px #7360BF, 3px 5px 0px #55468C, 3px 5px 5px #55468C;
+                        }
+                        a {
+                                text-decoration: none;
+                        }
+                        #dropbox {
+                                width: 320px;
+                                height: 200px;
+                                margin: 0 auto;
+                                margin-bottom: 30px;
+                                border: solid 1px #CCC;
+                                border-bottom: none;
+                                background: #FFFF5E;
+                                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFCCB', endColorstr='#FFFF5E');
+                                background-image: linear-gradient(bottom, #FFFF5E 0%, #FFFCCB 67%);
+                                background-image: -o-linear-gradient(bottom, #FFFF5E 0%, #FFFCCB 67%);
+                                background-image: -moz-linear-gradient(bottom, #FFFF5E 0%, #FFFCCB 67%);
+                                background-image: -webkit-linear-gradient(bottom, #FFFF5E 0%, #FFFCCB 67%);
+                                background-image: -ms-linear-gradient(bottom, #FFFF5E 0%, #FFFCCB 67%);
+                                background-image: -webkit-gradient(
+                                        linear,
+                                        left bottom,
+                                        left top,
+                                        color-stop(0, #FFFF5E),
+                                        color-stop(0.67, #FFFCCB)
+                                );
+                                border-radius: 10px;
+                                box-shadow: 0 3px 2px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(0, 0, 0, 0.25);
+                                transition: opacity 0.25s linear;
+                                -moz-transition: opacity 0.25s linear;
+                                -webkit-transition: opacity 0.25s linear;
+                        }
+                        #dropbox.disabled {
+                                opacity: 0.25;
+                        }
+                        #dropbox span {
+                                display: block;
+                                font-family: 'Lobster', cursive;
+                                color: #858507;
+                                font-size: 24px;
+                                text-align: center;
+                                line-height: 200px;
+                                text-shadow: 1px 1px 0 #F0FF8F, 2px 2px 2px rgba(0, 0, 0, 0.5);
+                                font-size: 38px;
+                        }
+                        #console {
+                                background: #301D10;
+                                color: #FFFFE5;
+                                padding: 10px;
+                                border-radius: 10px;
+                                box-shadow: 0 3px 2px rgba(0, 0, 0, 0.5), inset 0 0 40px rgba(0, 0, 0, 0.25);
+                                text-shadow: 0 1px 0 #000, 0 2px 0 #000;
+                                margin-bottom: 10px;
+                                width: 700px;
+                                margin: 0 auto;
+                                margin-bottom: 30px;
+                                word-wrap: break-word;
+                                line-height: 1.2em;
+                                overflow: hidden;
+                        }
+                        #output {
+                                margin: 0 auto;
+                                margin-bottom: 60px;
+                                text-align: center;
+                                background: url(checkerboard.gif);
+                                width: 250px;
+                                border-radius: 10px;
+                                box-shadow: 0 3px 2px rgba(0, 0, 0, 0.5);
+                                overflow: hidden;
+                        }
+                        #output .inner {
+                                display: table-cell;
+                                vertical-align: middle;
+                                width: 250px;
+                                height: 250px;
+                        }
+                        #output img {
+                                margin: 0 auto;
+                                display: block;
+                                max-width: 250px;
+                                max-height: 250px;
+                        }
+                        .download {
+                                position: fixed;
+                                bottom: 0;
+                                right: 0;
+                                margin: 20px;
+                                font-family: 'Lobster', cursive;
+                                background: #FE729D;
+                                font-weight: bold;
+                                color: #FFF;
+                                text-shadow: 0 1px 0 rgba(0, 0, 0, 0.75);
+                                padding: 10px;
+                                border-radius: 10px;
+                                box-shadow: 0 3px 2px rgba(0, 0, 0, 0.5), inset -2px -2px 5px rgba(0, 0, 0, 0.125);
+                                display: inline-block;
+                        }
+                        footer {
+                                position: fixed;
+                                bottom: 0;
+                                left: 0;
+                                background: rgba(0, 0, 0, 0.5);
+                                padding: 10px;
+                                color: #FFF;
+                                box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+                                border-radius: 0 10px 0 0;
+                                font-size: 11px;
+                        }
+                        footer a {
+                                color: #FFF;
+                                font-weight: bold;
+                        }
+                        footer a:hover {
+                                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+                        }
+                </style>
+
+                <script>
+                        window.URL = window.URL || window.webkitURL;
+                        var file;
+                        var dropboxElement, consoleElement, outputElement;
+                        var worker;
+                        function initWorker() {
+                                worker = new Worker("worker.js");
+                                worker.onmessage = function(event) {
+                                        var message = event.data;
+                                        if(message.type == "stdout") {
+                                                consoleElement.innerHTML += message.line + '\n';
+                                        } else if(message.type == "start") {
+                                                consoleElement.innerHTML = '';
+                                        } else if(message.type == "done") {
+                                                //
+                                                consoleElement.innerHTML += "Done!";
+                                                //
+                                                var imageElement = getImage(message.data);
+                                                outputElement.appendChild(imageElement);
+                                                //
+                                                var downloadLinkElement = document.createElement('a');
+                                                downloadLinkElement.className = 'download';
+                                                downloadLinkElement.download = file.name;
+                                                downloadLinkElement.href = imageElement.src;
+                                                downloadLinkElement.innerHTML = 'Download';
+                                                document.body.appendChild(downloadLinkElement);
+                                        } else if (message.type == "ready") {
+                                                consoleElement.innerHTML = "I'm ready! ..."
+                                        }
+                                };
+                        };
+                        function getImage(fileData) {
+                                //
+                                var blob = new Blob([fileData], {type: 'application/pdf'});
+                                //
+                                var src = window.URL.createObjectURL(blob);
+                                //
+                                var imageElement = document.createElement('img');
+                                imageElement.src = src;
+                                return imageElement;
+                        };
+                        document.addEventListener('DOMContentLoaded', function () {
+                                //
+                                dropboxElement = document.getElementById("dropbox");
+                                consoleElement = document.getElementById("console");
+                                outputElement = document.getElementById("output").children[0];
+                                initWorker();
+                                //
+                                function noopHandler(event) {
+                                        event.preventDefault();
+                                };
+                                dropboxElement.addEventListener("dragenter", noopHandler, false);
+                                dropboxElement.addEventListener("dragexit", noopHandler, false);
+                                dropboxElement.addEventListener("dragover", function(event) {
+                                        event.preventDefault();
+                                        event.dataTransfer.dropEffect = 'copy';
+                                }, false);
+                                dropboxElement.addEventListener("drop", function(event) {
+                                        console.log("dropped");
+                                        event.preventDefault();
+                                        if(dropboxElement.className == "disabled" || event.dataTransfer.files.length == 0) return; // TODO: Error message
+                                        var files = event.dataTransfer.files;
+                                        file = files[0];
+                                        console.log("file type" + file.type);
+                                        //
+                                        dropboxElement.className = "disabled";
+                                        var fileReader = new FileReader();
+                                        function onloadend(event) {
+                                                //
+                                                var arrayBuffer = event.target.result;
+                                                var data = new Uint8Array(arrayBuffer);
+                                                worker.postMessage({
+                                                        'type' : 'file',
+                                                        'data' : data
+                                                });
+                                                //
+                                                worker.postMessage({
+                                                        'type' : 'command',
+                                                        'command' : 'go'
+                                                });
+                                        };
+                                        if(fileReader.addEventListener) {
+                                                fileReader.addEventListener('loadend', onloadend, false);
+                                        } else {
+                                                fileReader.onloadend = onloadend;
+                                        }
+                                        fileReader.readAsArrayBuffer(file);
+                                }, false);
+                        });
+                </script>
+        </head>
+        <body>
+                <header><h1>PNG<span>Crush</span></h1></header>
+
+                <a href="http://github.com/richardassar/pngcrush.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+
+                <div id="dropbox"><span>Drop a PNG here</span></div>
+                <pre id="console">Loading, please wait ...</pre>
+                <div id="output"><div class="inner"></div></div>
+
+                <footer><p>Designed and developed by <a href="http://github.com/richardassar">richardassar</a> | Powered by <a href="https://github.com/kripken/emscripten">Emscripten</a></p></footer>
+
+                <script type="text/javascript">
+                        var _gaq = _gaq || [];
+                        _gaq.push(['_setAccount', 'UA-3384663-9']);
+                        _gaq.push(['_trackPageview']);
+                        (function() {
+                                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                        })();
+                </script>
+        </body>
+</html>
+
